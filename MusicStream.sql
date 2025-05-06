@@ -1,6 +1,5 @@
 CREATE DATABASE IF NOT EXISTS music_stream;
 USE music_stream;
-DROP TABLE datos_spotify;
 
 CREATE TABLE IF NOT EXISTS spotify_tracks (
 	spotify_id VARCHAR(50) PRIMARY KEY, 
@@ -32,21 +31,22 @@ VALUES ('Lady Gaga', 'Stefani Joanne Angelina Germanotta, known professionally a
 
 SELECT 
 artist_name,
-(lfm.listeners + lfm.playcount)/2 AS media_listeners_playcount
+(lfm.playcount/lfm.listeners) AS media_listeners_playcount
 FROM lastfm_info AS lfm
 ORDER BY media_listeners_playcount DESC;
 
 
-/* 2. Buscamos qué género es el más popular de los cuatro a partir de la media de escuchas por usuario de cada uno de ellos. */
+/*2. Buscamos qué género es el más popular de los cuatro a partir de la media de escuchas por usuario de cada uno de ellos. */
 
 SELECT 
 spotify_tracks.genre,
-ROUND(AVG((lfm.listeners + lfm.playcount)/2), 2) AS media_listeners_playcount
+ROUND(AVG(lfm.playcount/lfm.listeners), 2) AS media_listeners_playcount
 FROM lastfm_info AS lfm
 LEFT JOIN spotify_tracks
 ON spotify_tracks.artist_name = lfm.artist_name
 GROUP BY spotify_tracks.genre
 ORDER BY media_listeners_playcount DESC;
+
 
 /* 3. Buscamos qué canciones son las más escuchadas por cada género*/
 
@@ -54,7 +54,7 @@ SELECT
 lfm.artist_name,
 spotify_tracks.genre,
 spotify_tracks.track_name,
-(lfm.listeners + lfm.playcount)/2 AS media_listeners_playcount
+(lfm.playcount/lfm.listeners) AS media_listeners_playcount
 FROM lastfm_info AS lfm
 LEFT JOIN spotify_tracks
 ON spotify_tracks.artist_name = lfm.artist_name
@@ -65,7 +65,7 @@ SELECT
 lfm.artist_name,
 spotify_tracks.genre,
 spotify_tracks.track_name,
-(lfm.listeners + lfm.playcount)/2 AS media_listeners_playcount
+(lfm.playcount/lfm.listeners) AS media_listeners_playcount
 FROM lastfm_info AS lfm
 LEFT JOIN spotify_tracks
 ON spotify_tracks.artist_name = lfm.artist_name
@@ -77,7 +77,7 @@ SELECT
 lfm.artist_name,
 spotify_tracks.genre,
 spotify_tracks.track_name,
-(lfm.listeners + lfm.playcount)/2 AS media_listeners_playcount
+(lfm.playcount/lfm.listeners) AS media_listeners_playcount
 FROM lastfm_info AS lfm
 LEFT JOIN spotify_tracks
 ON spotify_tracks.artist_name = lfm.artist_name
@@ -89,7 +89,7 @@ SELECT
 lfm.artist_name,
 spotify_tracks.genre,
 spotify_tracks.track_name,
-(lfm.listeners + lfm.playcount)/2 AS media_listeners_playcount
+(lfm.playcount/lfm.listeners) AS media_listeners_playcount
 FROM lastfm_info AS lfm
 LEFT JOIN spotify_tracks
 ON spotify_tracks.artist_name = lfm.artist_name
@@ -97,36 +97,78 @@ WHERE spotify_tracks.genre = 'indie'
 ORDER BY media_listeners_playcount DESC;
 
 
-/* 4. ¿Cuáles fueron las 3 canciones que nos acompañaron durante la pandemia?*/
+/* 4. ¿Cuáles fueron las 3 canciones que nos acompañaron durante cada año?*/
 
-SELECT 
+SELECT
 spotify_tracks.genre,
 lfm.artist_name,
 spotify_tracks.track_name,
-lfm.playcount
+MAX(lfm.playcount) AS playcount
 FROM lastfm_info AS lfm
-LEFT JOIN spotify_tracks
+INNER JOIN spotify_tracks
 ON spotify_tracks.artist_name = lfm.artist_name
 WHERE spotify_tracks.year = '2020'
+GROUP BY spotify_tracks.track_name, spotify_tracks.genre, lfm.artist_name
+ORDER BY playcount DESC
+LIMIT 3;
+
+SELECT
+spotify_tracks.genre,
+lfm.artist_name,
+spotify_tracks.track_name,
+MAX(lfm.playcount) AS playcount
+FROM lastfm_info AS lfm
+INNER JOIN spotify_tracks
+ON spotify_tracks.artist_name = lfm.artist_name
+WHERE spotify_tracks.year = '2021'
+GROUP BY spotify_tracks.track_name, spotify_tracks.genre, lfm.artist_name
+ORDER BY playcount DESC
+LIMIT 3;
+
+SELECT
+spotify_tracks.genre,
+lfm.artist_name,
+spotify_tracks.track_name,
+MAX(lfm.playcount) AS playcount
+FROM lastfm_info AS lfm
+INNER JOIN spotify_tracks
+ON spotify_tracks.artist_name = lfm.artist_name
+WHERE spotify_tracks.year = '2022'
+GROUP BY spotify_tracks.track_name, spotify_tracks.genre, lfm.artist_name
 ORDER BY playcount DESC
 LIMIT 3;
 
 
-/* 5. ¿Y en 2024?*/
-
-SELECT 
+SELECT
 spotify_tracks.genre,
 lfm.artist_name,
 spotify_tracks.track_name,
-lfm.playcount
+MAX(lfm.playcount) AS playcount
 FROM lastfm_info AS lfm
-LEFT JOIN spotify_tracks
+INNER JOIN spotify_tracks
+ON spotify_tracks.artist_name = lfm.artist_name
+WHERE spotify_tracks.year = '2023'
+GROUP BY spotify_tracks.track_name, spotify_tracks.genre, lfm.artist_name
+ORDER BY playcount DESC
+LIMIT 3;
+
+
+
+SELECT
+spotify_tracks.genre,
+lfm.artist_name,
+spotify_tracks.track_name,
+MAX(lfm.playcount) AS playcount
+FROM lastfm_info AS lfm
+INNER JOIN spotify_tracks
 ON spotify_tracks.artist_name = lfm.artist_name
 WHERE spotify_tracks.year = '2024'
+GROUP BY spotify_tracks.track_name, spotify_tracks.genre, lfm.artist_name
 ORDER BY playcount DESC
-LIMIT 5;
+LIMIT 3;
 
-/* 6. ¿Cuál es el artista más escuchado de cada año? */
+
+/* 5. ¿Cuál es el artista más escuchado de cada año? */
 
 SELECT 
 lfm.artist_name,
@@ -178,9 +220,10 @@ WHERE spotify_tracks.year = '2024'
 ORDER BY lfm.playcount DESC
 LIMIT 1;
 
-
-/* 7. Nuestra constante: el artista con más canciones populares a lo largo de estos cinco años */
+/* 6. ¿Qué sabemos sobre los artistas más escuchados de 2020, 2021, 2022, 2023 y 2024? */
 
 SELECT
-artist_name
-COUNT(track_name)
+artist_name,
+biography
+FROM lastfm_info
+WHERE artist_name IN ('The Weeknd', 'Metallica', 'Harry Styles', 'Bad Bunny', 'Lady Gaga');
