@@ -26,10 +26,10 @@ El análisis se centra en **cuatro géneros musicales**:
 🔹 `Extracción_datos_musicstream.ipynb`  
 👉 Notebook en **Jupyter** con la extración de los datos con APIs paso a paso.
 
-🔹 `queries.sql`  
+🔹 `MusicStream.sql`  
 👉 Archivo con todas las **queries SQL** realizadas para extraer la información clave.
 
-🔹 `presentacion_musicstream.pdf`  
+🔹 `MusicStream Project.key.pdf`  
 👉 Presentación visual con el enfoque del proyecto y principales insights.
 
 ---
