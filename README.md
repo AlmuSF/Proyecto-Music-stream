@@ -20,8 +20,8 @@ El análisis se centra en **cuatro géneros musicales**:
 
 ## 📂 Archivos principales
 
-🔹 `da-project-promo50-modulo2-grupo4-musicstream-datadance.pdf`  
-👉 Presentación final del proyecto con conclusiones y visualizaciones.
+🔹 `Archivos csv`  
+👉 Los archivos .csv de donde hemos extraido la información y el jupyter con el código API correspondiente para extraerla.
 
 🔹 `musicstream_analysis.ipynb`  
 👉 Notebook en **Jupyter** con todo el análisis, limpieza y visualizaciones paso a paso.
@@ -30,7 +30,7 @@ El análisis se centra en **cuatro géneros musicales**:
 👉 Archivo con todas las **queries SQL** realizadas para extraer la información clave.
 
 🔹 `presentacion_musicstream.pdf`  
-👉 Otra presentación visual con el enfoque del proyecto y principales insights.
+👉 Presentación visual con el enfoque del proyecto y principales insights.
 
 ---
 
