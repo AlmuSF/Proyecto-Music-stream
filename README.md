@@ -20,11 +20,11 @@ El análisis se centra en **cuatro géneros musicales**:
 
 ## 📂 Archivos principales
 
-🔹 `Archivos csv`  
-👉 Los archivos .csv de donde hemos extraido la información y el jupyter con el código API correspondiente para extraerla.
+🔹 `Archivos .csv`  
+👉 Los archivos .csv muestran los dataset con los que he trabajado.
 
-🔹 `musicstream_analysis.ipynb`  
-👉 Notebook en **Jupyter** con todo el análisis, limpieza y visualizaciones paso a paso.
+🔹 `Extracción_datos_musicstream.ipynb`  
+👉 Notebook en **Jupyter** con la extración de los datos con APIs paso a paso.
 
 🔹 `queries.sql`  
 👉 Archivo con todas las **queries SQL** realizadas para extraer la información clave.
