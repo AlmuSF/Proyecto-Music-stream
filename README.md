@@ -37,7 +37,7 @@ El análisis se centra en **cuatro géneros musicales**:
 ## 📌 ¿Qué puedes hacer aquí?
 
 ✅ Explorar los **datos analizados**  
-✅ Consultar cómo usamos las **APIs**  
+✅ Consultar el uso de las **APIs**  
 ✅ Ver paso a paso el proceso de análisis  
 ✅ Inspirarte para tus propios proyectos de **Data Analytics**
 
